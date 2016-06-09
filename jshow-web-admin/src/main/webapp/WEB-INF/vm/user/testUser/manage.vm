@@ -1,0 +1,130 @@
+#set($layout='/WEB-INF/vm/layout/adminLayout.vm')
+
+	
+	<script type="text/javascript">
+		require(['calendar','xheditor_lang'],function(calendar,xheditor_lang){
+			
+				jQuery("#search_testuser").find(".j_date_picker").calendar({
+						disabled: false
+					});
+				
+				jQuery("#search_testuser").find(".j_datetime_picker").calendar({
+						frondose : true,
+						disabled: false
+					});
+				
+				jQuery("#search_testuser").find(".j_editor").xheditor();
+				
+		});
+
+	</script>
+	
+	
+
+
+
+<div class="manage-content" id="search_testuser">
+
+<form class="form-inline">
+
+
+		<div class="form-group">
+			<label for="id_search">id</label>
+				
+				<input type="text"  name="id" id="id_search" class="form-control input-medium" placeholder="请输入id">
+				
+		</div>&nbsp;&nbsp;
+		
+
+		<div class="form-group">
+			<label for="name_search">名字</label>
+				
+				<input type="text"  name="name" id="name_search" class="form-control input-medium" placeholder="请输入名字">
+				
+		</div>&nbsp;&nbsp;
+		
+
+		<div class="form-group">
+			<label for="state_search">状态</label>
+				
+	
+		<select class="forms_select input-medium" name="state" id="state_search">
+			<option value="">全部</option>
+			
+				<option value="1">有效</option>
+				<option value="-1">无效</option>
+		</select>
+	
+	
+
+		</div>&nbsp;&nbsp;
+		
+		<input type="button" onclick="queryList();" class="btn btn-primary" value="搜索"  />
+	</form>
+		
+<br/>
+
+
+
+		 <div class="page_operate">
+			 <button class="btn  btn-primary" type="button" id="add-testUser">
+				<span class="glyphicon glyphicon-plus"></span> 创建 测试用户</button>
+		</div>
+
+
+	<div id="dl"></div>
+</div>
+
+
+<script language="javascript">
+	function queryList(pageNo) {	
+		if (!pageNo) {
+			pageNo = 1;
+		}
+		var page = pageNo;
+		var url = '/user/testUser/list.action';
+		var param = {
+			page: page
+		};
+		
+		var pageSize=jQuery("#JPageSize_queryList").val();
+        if(pageSize && !isNaN(pageSize)){
+            param['pageSize']=pageSize;
+        }
+
+		getOtherParams(param);
+		gUtils.fGetHtml(url, 'dl', param,'数据加载中...');
+	}
+	queryList();
+	
+
+	function getOtherParams(param){
+   
+	  	var id_search=jQuery("#id_search").val();
+		if(id_search!=null&&id_search!=''){
+				param.id=id_search;
+			}
+			 
+	  	var name_search=jQuery("#name_search").val();
+		if(name_search!=null&&name_search!=''){
+				param.name=name_search;
+			}
+			 
+	  	var state_search=jQuery("#state_search").val();
+		if(state_search!=null&&state_search!=''){
+				param.state=state_search;
+			}
+					
+	}
+
+
+
+
+void function(j) {
+	jQuery("#add-testUser").click(function(){
+		gDialog.fCreate({title: '创建 测试用户', url: '/user/testUser/add.action',width:700}).show();
+	});
+	
+}(jQuery);
+
+</script>

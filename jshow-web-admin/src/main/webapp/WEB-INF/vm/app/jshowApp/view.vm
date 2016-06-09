@@ -1,0 +1,72 @@
+
+
+<div class="modal-body auto-height-body">
+	<form class="form-horizontal"  id="form1" role="form">
+	
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">id</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="id" id="id" value="$!{jshowApp.id}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">名称</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="name" id="name" value="$!{jshowApp.name}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">域名</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="domain" id="domain" value="$!{jshowApp.domain}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">状态</label>
+			<div class="col-sm-8 controls">
+			
+	
+		<select class="forms_select form-control" name="status" id="status" disabled>
+				<option value="-1" #if($jshowApp.status==-1) selected  #end>删除</option>
+				<option value="1" #if($jshowApp.status==1) selected  #end>有效</option>
+
+		</select>
+	
+	
+
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">创建时间</label>
+			<div class="col-sm-8 controls">
+							<input type="text"  class="form-control" name="created" id="created" value="$!dateFormatUtils.format($!jshowApp.created)" readonly/>
+						
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">修改时间</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text"  class="form-control" name="modified" id="modified" value="$!dateFormatUtils.format($!jshowApp.modified)" readonly/>
+						
+			</div>
+		</div>
+		
+
+	</form>
+</div>
+<div class="modal-footer">
+	<a href="javascript:;" class="btn btn-default"  data-dismiss="modal" aria-hidden="true">关闭</a>
+</div>
+

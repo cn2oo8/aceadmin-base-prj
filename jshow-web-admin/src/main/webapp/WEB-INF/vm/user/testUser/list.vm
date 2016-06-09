@@ -1,0 +1,89 @@
+
+<div class="row-fluid">
+	<div class="span12">
+		<table class="table table-striped table-bordered table-hover table-condensed">
+			<thead>
+				<tr>
+ 			<th><span>id</span></th>
+			<th><span>名字</span></th>
+			<th><span>年龄</span></th>
+			<th><span>生日</span></th>
+			<th><span>介绍</span></th>
+			<th><span>状态</span></th>
+			<th><span>修改时间</span></th>
+
+				<th class="operate">操作</th>
+				</tr>
+			</thead>
+
+
+			<tbody>
+	#if($list && $list.size()!=0)
+		    #foreach($item in $list)
+		   <tr>
+				 			<td>$!item.id</td>
+			<td>$!item.name</td>
+			<td>$!item.age</td>
+			<td>$!dateFormatUtils.format($!item.birthDay,'yyyy-MM-dd')</td>
+			<td>$!item.introduce</td>
+			<td>
+	
+			
+				#if($item.state==1)<span class="">有效</span> #end	
+			
+				#if($item.state==-1)<span class="">无效</span> #end	
+			
+	
+	</td>
+			<td>$!dateFormatUtils.format($!item.modified)</td>
+
+				<td class="operate">
+					<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+						<button class="btn btn-xs btn-success JUpdate-testUser" type="button" itemid="$!item.id"><i class="icon-edit bigger-120"></i>编辑</button>
+						<button class="btn btn-xs btn-info JView-testUser" type="button" itemid="$!item.id"><i class="icon-eye-open bigger-120"></i>查看</button>
+						<button class="btn btn-xs btn-danger JDelete-testUser" type="button" itemid="$!item.id"> <i class="icon-trash bigger-120"></i>删除</button>
+					</div>
+				</td>
+		  </tr>
+			#end
+		#else
+		<tr>
+					<td colspan="10" class="message_default">没有记录！</td>
+		</tr>
+		#end
+
+
+			</tbody>
+
+
+		</table>
+
+		#if($pageQuery)
+			#showPageQuery($pageQuery,'queryList','input')
+		#end
+
+	</div>
+</div>
+
+
+
+
+<script language="javascript">
+void function(j) {	
+	j('.JDelete-testUser').click(function() {
+		var id = j(this).attr('itemid');
+		var config={title:'删除测试用户',info:'您确定要删除测试用户吗？',url: '/user/testUser/doDelete.action',param:'id='+id};
+		gUtils.fConfirmAndRefreshList(config);
+	});
+	
+	j('.JUpdate-testUser').click(function() {
+		var id = j(this).attr('itemid');
+		gDialog.fCreate({ title: '修改测试用户', url: '/user/testUser/update.action?id='+id,width:700}).show();
+	});
+
+	j('.JView-testUser').click(function() {
+		var id = j(this).attr('itemid');
+		gDialog.fCreate({ title: '查看测试用户', url: '/user/testUser/view.action?id='+id,width:700}).show();
+	});
+}(jQuery);
+</script>

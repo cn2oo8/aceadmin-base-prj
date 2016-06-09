@@ -1,0 +1,44 @@
+
+	<!--struts config start-->
+	<!-- 应用信息 -->
+	<package name="app-jshowApp" namespace="/app/jshowApp" extends="jshow-admin">
+		<action name="*" method="{1}" class="com.shareyi.jshow.web.action.app.JshowAppAction">
+			<result>${path}/app/jshowApp/{1}.vm</result>
+		</action>
+	</package>
+	<!--struts config end-->
+	
+
+	<!-- mybatis 配置开始-->
+	
+	<typeAlias type="com.shareyi.jshow.domain.app.JshowApp" alias="JshowApp"/>
+
+	<mapper resource="sqlmap/app/JshowApp.xml" />
+	
+	<bean id="jshowAppDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
+	   <property name="mapperInterface" value="com.shareyi.jshow.dao.app.JshowAppDao"/>  
+	  <property name="sqlSessionFactory" ref="sqlSessionFactory" />  
+	</bean>
+	
+	<!-- mybatis 配置end-->
+
+
+
+	<!-- ibatis 配置开始-->
+
+	<sqlMap resource="sqlmap/app/JshowApp.xml" />
+	
+	<bean id="jshowAppDao" class="com.shareyi.jshow.dao.app.impl.JshowAppDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- ibatis 配置end-->
+
+
+	
+	<!-- 可选配置项 start -->
+	<bean id="jshowAppManager" class="com.shareyi.jshow.dao.app.impl.JshowAppManagerImpl">
+	</bean>
+	
+	<bean id="jshowAppService" class="com.shareyi.jshow.dao.app.impl.JshowAppServiceImpl">
+	</bean>
+	<!-- 可选配置项 end -->

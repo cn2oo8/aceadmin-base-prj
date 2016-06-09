@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE configuration PUBLIC "http://mybatis.org/dtd/mybatis-3-config.dtd" "mybatis-3-config.dtd" >
+ <configuration>
+   
+   	<!-- 别名 -->
+	<typeAliases>
+
+        <typeAlias type="com.shareyi.jshow.domain.app.JshowApp" alias="JshowApp"/>
+        <typeAlias type="com.shareyi.jshow.domain.user.TestUser" alias="TestUser"/>
+
+
+    </typeAliases>
+	
+     <mappers>
+
+         <mapper resource="sqlmap/app/JshowApp.xml" />
+         <mapper resource="sqlmap/user/TestUser.xml" />
+
+
+     </mappers>
+	
+
+ </configuration>

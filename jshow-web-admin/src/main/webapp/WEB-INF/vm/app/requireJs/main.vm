@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> require js测试</title>
+    <script type="text/javascript" src="/misc/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/misc/js/requirejs/2.1.18/require.min.js"></script>
+    <script type="text/javascript" src="/misc/js/plugin/config.js"></script>
+    <script language="JavaScript">
+        requirejs(['app1','conf1','xheditor','xheditor_lang'], function(app,conf,nu) {
+            app.hello();
+            console.log(conf.color);
+
+        });
+    </script>
+</head>
+
+<body>
+
+dskdskdskdsk
+
+<span class="testcss">应该变为红色</span>
+
+<textarea id="elm1" name="elm1" class="xheditor" rows="12" cols="80" style="width: 80%"></textarea>
+
+</body>
+
+
+
+
+</html>

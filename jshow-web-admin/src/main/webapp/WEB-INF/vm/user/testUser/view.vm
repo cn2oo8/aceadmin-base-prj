@@ -1,0 +1,123 @@
+
+	
+	<script type="text/javascript">
+		require(['calendar','xheditor_lang'],function(calendar,xheditor_lang){
+			
+				jQuery("#view_testuser").find(".j_date_picker").calendar({
+						disabled: false
+					});
+				
+				jQuery("#view_testuser").find(".j_datetime_picker").calendar({
+						frondose : true,
+						disabled: false
+					});
+				
+				jQuery("#view_testuser").find(".j_editor").xheditor();
+				
+		});
+
+	</script>
+	
+	
+
+
+<div class="modal-body auto-height-body" id="view_testuser">
+	<form class="form-horizontal"  id="form1" role="form">
+	
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">id</label>
+			<div class="col-sm-8 controls">
+			
+					<input type="text" class="form-control" name="id" id="id" value="$!{testUser.id}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">名字</label>
+			<div class="col-sm-8 controls">
+			
+					<input type="text" class="form-control" name="name" id="name" value="$!{testUser.name}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">年龄</label>
+			<div class="col-sm-8 controls">
+			
+					<input type="text" class="form-control" name="age" id="age" value="$!{testUser.age}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">生日</label>
+			<div class="col-sm-8 controls">
+			
+						<input type="text" class="form-control" name="birthDay" id="birthDay" value="$!dateFormatUtils.format($!testUser.birthDay,"yyyy-MM-dd")" readonly/>
+					
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">介绍</label>
+			<div class="col-sm-8 controls">
+			
+					<textarea class="form-control j_editor"  name="introduce" id="introduce" readonly
+					 style="min-height:250px;width:100%;">$!{testUser.introduce}</textarea>
+					
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">备注</label>
+			<div class="col-sm-8 controls">
+			
+				 	 <textarea  class="form-control"  name="remark" id="remark" placeholder="请输入备注"
+				 	 readonly  rows="5">$!{testUser.remark}</textarea>
+				   
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">状态</label>
+			<div class="col-sm-8 controls">
+			
+		
+		<select class="forms_select input-medium form-control" name="state" id="state" disabled>
+						<option value="1" #if($testUser.state==1) selected  #end>有效</option>
+				<option value="-1" #if($testUser.state==-1) selected  #end>无效</option>
+
+		</select>
+	
+	
+
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">创建时间</label>
+			<div class="col-sm-8 controls">
+			
+					<input type="text"  class="form-control" name="created" id="created" value="$!dateFormatUtils.format($!testUser.created)" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="enname">修改时间</label>
+			<div class="col-sm-8 controls">
+			
+					<input type="text"  class="form-control" name="modified" id="modified" value="$!dateFormatUtils.format($!testUser.modified)" readonly/>
+				
+			</div>
+		</div>
+		
+
+	</form>
+</div>
+<div class="modal-footer">
+	<a href="javascript:;" class="btn btn-default"  data-dismiss="modal" aria-hidden="true">关闭</a>
+</div>
+
