@@ -31,7 +31,7 @@
 		<div class="form-group">
 			<label for="id_search">id</label>
 				
-				<input type="text"  name="id" id="id_search" class="form-control input-medium" placeholder="请输入id">
+				<input type="text"  name="id" id="id_search" class="form-control" placeholder="请输入id">
 				
 		</div>&nbsp;&nbsp;
 		
@@ -39,7 +39,7 @@
 		<div class="form-group">
 			<label for="name_search">名字</label>
 				
-				<input type="text"  name="name" id="name_search" class="form-control input-medium" placeholder="请输入名字">
+				<input type="text"  name="name" id="name_search" class="form-control" placeholder="请输入名字">
 				
 		</div>&nbsp;&nbsp;
 		
@@ -77,7 +77,10 @@
 
 
 <script language="javascript">
-	function queryList(pageNo) {	
+	var pageFrom='$!{request.getParameter('from')}';
+	var menuId='$!{request.getParameter('menuId')}';
+
+	function queryList(pageNo) {
 		if (!pageNo) {
 			pageNo = 1;
 		}
@@ -122,7 +125,8 @@
 
 void function(j) {
 	jQuery("#add-testUser").click(function(){
-		gDialog.fCreate({title: '创建 测试用户', url: '/user/testUser/add.action',width:700}).show();
+		var url='/user/testUser/add.action';
+        window.location=url+"?from="+pageFrom+"&menuId="+menuId;
 	});
 	
 }(jQuery);

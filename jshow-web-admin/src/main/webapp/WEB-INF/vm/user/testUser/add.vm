@@ -1,4 +1,4 @@
-
+#set($layout='/WEB-INF/vm/layout/adminLayout.vm')
 
 	
 	<script type="text/javascript">
@@ -18,7 +18,7 @@
 
 
     
-<div class="modal-body auto-height-body"  id="add_testuser">
+<div class="modal-body " id="add_testuser">
 	<form class="form-horizontal"  id="form1" role="form">
 	
 		<div class="form-group">
@@ -55,7 +55,7 @@
 			<label class="col-sm-2 control-label" for="introduce">介绍</label>
 			<div class="col-sm-7 controls">
 			
-					<textarea  class="j_editor form-control" name="introduce" id="introduce" placeholder="请输入介绍" style="min-height:250px;width:100%;"></textarea>
+					<textarea  class="j_editor form-control" name="introduce" id="introduce" placeholder="请输入介绍" style="min-height:250px;"></textarea>
 									
 			</div>
 		</div>
@@ -65,7 +65,8 @@
 			<label class="col-sm-2 control-label" for="remark">备注</label>
 			<div class="col-sm-7 controls">
 			
-					<textarea  class="form-control" name="remark" id="remark" placeholder="请输入备注"  rows="5"></textarea> 				
+				<input type="text"  class="form-control" name="remark" id="remark" placeholder="请输入备注" maxlength="45"/>
+								
 			</div>
 		</div>
 		
@@ -92,13 +93,18 @@
 </div>
 <div class="modal-footer">
 	<a href="javascript:;" class="btn btn-primary" id="btn_submit">保存</a>
-	<a href="javascript:;" class="btn btn-default"  data-dismiss="modal" aria-hidden="true">关闭</a>
+	<a href="javascript:;" class="btn btn-sm" onclick="backToManage();">返回</a>
 </div>
 
 
 
 
 <script language="javascript">
+
+	var pageFrom='$!{request.getParameter('from')}';
+	var menuId='$!{request.getParameter('menuId')}';
+
+
 void function(j) {
 	var set = {
 		 		name:  {must: false, maxlength:10, ftip:'名字,最多10个字符'},
@@ -117,10 +123,18 @@ void function(j) {
 			'/user/testUser/doAdd.action', 
 			function() {
 				gDialog.fClose();
-				queryList(1);
+				backToManage();
 			}
 		);
 	});
-	
+
+
+	//form.friend.init(set);
 }(jQuery);
+
+
+	function backToManage(){
+    		var url='/user/testUser/manage.action';
+    		window.location=url+"?from="+pageFrom+"&menuId="+menuId;
+    };
 </script>

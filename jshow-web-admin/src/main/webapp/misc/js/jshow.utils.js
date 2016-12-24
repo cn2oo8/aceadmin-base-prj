@@ -118,6 +118,34 @@
                 }
             });
 		},
+		/**
+		 *
+		 * @param param 表单参数
+		 * @param url URL
+		 * @param successHandler 操作成功处理
+		 * @param errorHandler 操作失败处理
+		 */
+		fSubmitUrl: function(url,param, successHandler, errorHandler,loading) {
+			$.ajax({
+				url: url,
+				type:'post',
+				dataType: "json",
+				timeout:10000,
+				data: param,
+				success: function(data, ts) {
+					gUtils.fProcessResult(data, successHandler, errorHandler);
+				},
+				beforeSend: function() {
+					if(loading){
+						$('body').modalmanager('loading');
+					}
+				},
+				error:function(){
+					var data={'success':false,'message':'服务器异常，请联系管理员或重试！'};
+					gUtils.fProcessResult(data, successHandler, errorHandler);
+				}
+			});
+		},
 		fProcessResult: function(data, successHandler, errorHandler) {
             $('body').modalmanager('hideLoading');
 			if (data) {
@@ -254,6 +282,65 @@
 				$(next).remove();
 			}
 			this.fGetBody(url);
+		},
+		/**
+		 * 获取当前页码
+		 * */
+		fGetCurrentPage:function(domId){
+			if(domId==null || domId==''){
+				domId='J_Input_page_queryList';
+			}
+			var page=$("#"+domId).val();
+			if(isNaN(page)){
+				page=1;
+			}
+			return page;
+		},
+		fMergeParam : function (param, formId) {
+			var jObj=formId;
+			if( typeof formId === 'string'){
+				jObj=$("#"+formId);
+			}
+			return $.extend(param,jObj.serializeObject(true,true,true));
+		},
+		fMakeFullLink:function(url){
+			var href=window.location.href;
+			var params=gUtils.fGetUrlParam(href);
+			var linkParam={};
+			if(params['from']){
+				linkParam['from']=params['from'];
+			}
+			if(params['menuId']){
+				linkParam['menuId']=params['menuId'];
+			}
+			return gUtils.fContactParam(url,linkParam);
+		},
+		fGetUrlParam:function(url){
+			var params = {};
+			if (url && url.indexOf("?") != -1) {
+				var str = url.substr(url.indexOf("?")+1);
+				console.log(str);
+
+				var strs = str.split("&");
+				for (var i = 0; i < strs.length; i++) {
+					params[strs[i].split("=")[0]] = strs[i].substr(strs[i].indexOf("=") + 1);
+				}
+			}
+			console.log(params);
+			return params;
+		},
+		fContactParam:function(url,param){
+			if(url.indexOf("?")==-1){
+				url=url+"?";
+			}
+			if($.isPlainObject(param)){
+				for(var key in param){
+					url+="&"+key+"="+param[key];
+				}
+			}else{
+				url+="&"+param;
+			}
+			return url;
 		}
 	});
 })(jQuery,window);
@@ -268,68 +355,82 @@
  window.message_box = (function($) {
      "use strict";
 
-     var elem,
-         hideHandler,
-         that = {};
+	 var alertContainerTemplate='<div id="message_box_container"  style="width:650px;position:fixed;left:50%;margin-left:-270px;z-index:10000;top:30px;"></div>';
+	 var alertTemplate='<div id="message_box_info_@{randomId}" class="alert @{alertStyle}" style="display:none;margin-bottom: 5px;" role="alert"><button type="button" class="close">&times;</button> @{alertInfo}'+
+		 '@{alertMessage}</div>';
 
-	 var alertStyles=['alert-info','alert-warning','alert-success','alert-danger'];
-     
-     
-     that.init = function(options) {
-     	if(elem){
+	 var container;
+	 var that={};
+     that.init = function() {
+     	if(container){
      		return;
      	}
-     	var html='<div id="message_box_info" class="alert alert-info alert-block" style="display:none;width:500px;position:fixed;'+
-     	'left:50%;margin-left:-250px;top:30px;z-index:10000;"><button type="button" class="close">&times;</button>'+
-     	'<span></span></div>';
-     	$("body").append(html);
- 		elem=$("#message_box_info");
- 		elem.find('button.close').click(function(){
- 			that.hide();
- 		});
+		 $("body").append(alertContainerTemplate);
+		 container=$("#message_box_container");
      };
      
      that.show = function(text,type,time) {
-     	if(elem==null ||elem==undefined){
-     		that.init();
-     	}
-     	 var alertClass='';
-     	 if(type=='info'){
-     		alertClass='alert-info';
-     	 }else if(type=='success'){
-     		alertClass='alert-success'; 
-     	 }else if(type=='danger'){
-     		alertClass='alert-danger'; 
-     	 }else{
-			alertClass='alert-warning';
+		 if(container==null ||container==undefined){
+			 that.init();
 		 }
-     	 for ( var i = 0; i < alertStyles.length; i++) {
-     		 elem.removeClass(alertStyles[i]);
-     	 	}
-     	 if(alertClass!=''){
-     		elem.addClass(alertClass);
-     	 }
-     	
-         clearTimeout(hideHandler);
-         elem.find("span").html(text);
-         elem.slideDown();
-         if(time==null || isNaN(time)){
-         	time=4000;
-         }
-         
-         hideHandler = setTimeout(function() {
-             that.hide();
-         }, time);
+		 var alertClass='';
+		 var alertInfo='';
+		 if(type=='info'){
+			 alertClass='alert-info';
+			 alertInfo='<strong><i class="fa fa-2x fa-info-circle"></i> &nbsp;提醒：</strong>';
+		 }else if(type=='success'){
+			 alertClass='alert-success';
+			 alertInfo='<strong><i class="fa fa-2x fa-check-circle"></i>&nbsp;成功！</strong>';
+		 }else if(type=='error'){
+			 alertClass='alert-danger';
+			 alertInfo='<strong><i class="fa fa-2x fa-times-circle"></i>&nbsp;错误：</strong>';
+		 }else if(type=='danger'){
+			 alertClass='alert-danger';
+			 alertInfo='<strong><i class="fa fa-2x fa-minus-circle"></i>&nbsp;危险：</strong>';
+		 }else{
+			 alertClass='alert-warning';
+			 alertInfo='<strong><i class="fa fa-2x fa-exclamation-triangle"></i>&nbsp;警告：</strong>';
+		 }
+		 var data={'alertStyle':alertClass ,'alertInfo':alertInfo, 'randomId':new Date().getTime(),'alertMessage':text};
+		 var html=gUtils.fRenderTemplate(alertTemplate,data);
+		 var elem=$(html).appendTo(container);
+		 container.show();
+		 elem.fadeIn();
+		 if(time==null || isNaN(time)){
+			 time=8000;
+		 }
+		 setTimeout(function() {
+			 that.removeAlert(elem);
+		 }, time);
+
+		 elem.find('button.close').click(function(){
+			 that.removeAlert(elem);
+		 });
      };
 
-     that.info=function(text,time){
+	 that.removeAlert = function(elem) {
+		 elem.fadeOut();
+		 elem.remove();
+
+		 if(that.alertCount()==0){
+			 container.hide();
+		 }
+	 };
+	 that.alertCount=function () {
+		 var count=container.children().length;
+		 return count;
+	 };
+
+	 that.info=function(text,time){
          that.show(text,"info",time);
      };
 
-     that.error=function(text,time){
-         that.show(text,"error",time);
+     that.danger=function(text,time){
+         that.show(text,"danger",time);
      };
-
+	 that.error=function(text,time){
+		 that.show(text,"error",time);
+	 };
      that.warning=function(text,time){
          that.show(text,"waring",time);
      };
@@ -338,39 +439,38 @@
          that.show(text,"success",time);
      };
 
-     that.hide = function() {
-         elem.fadeOut();
-     };
-
      return that;
  }(jQuery));
 
 /*----------------jquery扩展，讲form序列化为json object----tangzl---------------*/
-$.fn.serializeObject = function(removeNullField,fieldsToStr) {
-    var o = {};
-    var a = this.serializeArray();
+$.fn.serializeObject = function(removeNullField,fieldsToStr,trim) {
+	var o = {};
+	var a = this.serializeArray();
 
-    $.each(a, function() {
-        if(removeNullField&&!this.value) {
-            return true;
-        }
-        if (o[this.name]) {
-            if(fieldsToStr){
-                o[this.name] = o[this.name]+","+this.value || '';
-            }else{
-                if (!o[this.name].push) {
-                    o[this.name] = [ o[this.name] ];
-                }
-                o[this.name].push(this.value || '');
-            }
+	$.each(a, function () {
+		if (removeNullField && !this.value) {
+			return true;
+		}
 
-        } else {
-            o[this.name] = this.value || '';
-        }
+		var value=this.value;
+		if(trim){
+			value= $.trim(value);
+		}
 
-    });
-    /*for(var field in o){
-        alert(field + ":" + o[field] + " ");
-    }*/
-    return o;
+		if (o[this.name]) {
+			if (fieldsToStr) {
+				o[this.name] = o[this.name] + "," + value || '';
+			} else {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(value || '');
+			}
+
+		} else {
+			o[this.name] = value || '';
+		}
+
+	});
+	return o;
 }

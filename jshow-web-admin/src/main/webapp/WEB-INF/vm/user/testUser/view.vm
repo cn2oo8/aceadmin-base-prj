@@ -1,3 +1,4 @@
+#set($layout='/WEB-INF/vm/layout/adminLayout.vm')
 
 	
 	<script type="text/javascript">
@@ -21,14 +22,14 @@
 	
 
 
-<div class="modal-body auto-height-body" id="view_testuser">
+<div class="modal-body " id="view_testuser">
 	<form class="form-horizontal"  id="form1" role="form">
 	
 		<div class="form-group">
 			<label class="col-sm-2 control-label" for="enname">id</label>
 			<div class="col-sm-8 controls">
 			
-					<input type="text" class="form-control" name="id" id="id" value="$!{testUser.id}" readonly/>
+							<input type="text" class="form-control" name="id" id="id" value="$!{testUser.id}" readonly/>
 				
 			</div>
 		</div>
@@ -37,7 +38,7 @@
 			<label class="col-sm-2 control-label" for="enname">名字</label>
 			<div class="col-sm-8 controls">
 			
-					<input type="text" class="form-control" name="name" id="name" value="$!{testUser.name}" readonly/>
+							<input type="text" class="form-control" name="name" id="name" value="$!{testUser.name}" readonly/>
 				
 			</div>
 		</div>
@@ -46,7 +47,7 @@
 			<label class="col-sm-2 control-label" for="enname">年龄</label>
 			<div class="col-sm-8 controls">
 			
-					<input type="text" class="form-control" name="age" id="age" value="$!{testUser.age}" readonly/>
+							<input type="text" class="form-control" name="age" id="age" value="$!{testUser.age}" readonly/>
 				
 			</div>
 		</div>
@@ -65,7 +66,7 @@
 			<div class="col-sm-8 controls">
 			
 					<textarea class="form-control j_editor"  name="introduce" id="introduce" readonly
-					 style="min-height:250px;width:100%;">$!{testUser.introduce}</textarea>
+					 style="min-height:250px;">$!{testUser.introduce}</textarea>
 					
 			</div>
 		</div>
@@ -74,9 +75,8 @@
 			<label class="col-sm-2 control-label" for="enname">备注</label>
 			<div class="col-sm-8 controls">
 			
-				 	 <textarea  class="form-control"  name="remark" id="remark" placeholder="请输入备注"
-				 	 readonly  rows="5">$!{testUser.remark}</textarea>
-				   
+							<input type="text" class="form-control" name="remark" id="remark" value="$!{testUser.remark}" readonly/>
+				
 			</div>
 		</div>
 		
@@ -101,7 +101,7 @@
 			<div class="col-sm-8 controls">
 			
 					<input type="text"  class="form-control" name="created" id="created" value="$!dateFormatUtils.format($!testUser.created)" readonly/>
-				
+						
 			</div>
 		</div>
 		
@@ -110,7 +110,7 @@
 			<div class="col-sm-8 controls">
 			
 					<input type="text"  class="form-control" name="modified" id="modified" value="$!dateFormatUtils.format($!testUser.modified)" readonly/>
-				
+						
 			</div>
 		</div>
 		
@@ -118,6 +118,18 @@
 	</form>
 </div>
 <div class="modal-footer">
-	<a href="javascript:;" class="btn btn-default"  data-dismiss="modal" aria-hidden="true">关闭</a>
+	<a href="javascript:;" class="btn btn-sm" onclick="backToManage();">返回</a>
 </div>
 
+
+<script language="javascript">
+
+var pageFrom='$!{request.getParameter('from')}';
+var menuId='$!{request.getParameter('menuId')}';
+
+function backToManage(){
+	var url='/user/testUser/manage.action';
+	window.location=url+"?from="+pageFrom+"&menuId="+menuId;
+}
+
+</script>

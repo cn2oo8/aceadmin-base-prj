@@ -78,12 +78,16 @@ void function(j) {
 	
 	j('.JUpdate-testUser').click(function() {
 		var id = j(this).attr('itemid');
-		gDialog.fCreate({ title: '修改测试用户', url: '/user/testUser/update.action?id='+id,width:700}).show();
+		//gDialog.fCreate({ title: '修改测试用户', url: '/user/testUser/update.action?id='+id,width:700}).show();
+		var url='/user/testUser/update.action?id='+id;
+        window.location=url+"&from="+pageFrom+"&menuId="+menuId;
 	});
 
 	j('.JView-testUser').click(function() {
 		var id = j(this).attr('itemid');
-		gDialog.fCreate({ title: '查看测试用户', url: '/user/testUser/view.action?id='+id,width:700}).show();
+		//gDialog.fCreate({ title: '查看测试用户', url: '/user/testUser/view?id='+id,width:700}).show();
+		var url='/user/testUser/view.action?id='+id;
+		window.location=url+"&from="+pageFrom+"&menuId="+menuId;
 	});
 }(jQuery);
 </script>
