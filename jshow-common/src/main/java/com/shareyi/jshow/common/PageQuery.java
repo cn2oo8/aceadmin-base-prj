@@ -3,21 +3,18 @@
  */
 package com.shareyi.jshow.common;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
- * @author david
+ * @author ZhaoHongbo
  *
  */
 public class PageQuery {
@@ -27,27 +24,38 @@ public class PageQuery {
 	public static final String DIRECTION_DESC = "DESC";
 	
 	private int currentPageNo;
-	private int pageSize = 10;
+	private int pageSize = 20;
 	private int startIndex;
 	private int startRow;
 	private int totalCount;
 	private int pageCount;
 	private String orderBy;
 	private String direction;
-	private Map<String, Object> params = new HashMap<String, Object>();
-	private HttpServletRequest request;
-	
+
+	/**
+	 * 防止对象被json化或者序列化
+	 */
+	private transient Map<String, Object> params = new HashMap<String, Object>();
+
+	private transient  HttpServletRequest request;
+
+
+
 	public PageQuery() {
-		this(10);
+		this(20);
 	}
 	
 	public PageQuery(int pageSize) {
-		this(((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).
-				getRequest(), pageSize);
+		this.pageSize = pageSize;
+		ServletRequestAttributes requestAttributes=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+		HttpServletRequest request=requestAttributes==null? null:requestAttributes.getRequest();
+		this.setRequest(request);
+		this.params = getParameterNameValuesMap(request);
 	}
-	
+
 	public PageQuery(HttpServletRequest request) {
 		this.setRequest(request);
+		this.params = getParameterNameValuesMap(request);
 	}
 	
 	public PageQuery(HttpServletRequest request, int pageSize) {
@@ -114,8 +122,17 @@ public class PageQuery {
 	public void setCurrentPageNo(int currentPageNo) {
 		this.currentPageNo = currentPageNo;
 	}
-	
-	
+
+
+	/**
+	 * pageCount在之后重新设置
+	 */
+	public void initWithoutTotal() {
+		//这里先设置为最大值，如果后期不重新设置回真实总量，分页显示会出现问题
+		this.setTotalCount(Integer.MAX_VALUE);
+	}
+
+
 	private void init() {
 		pageCount = (int) totalCount / pageSize;
 		if (totalCount % pageSize > 0 || pageCount == 0) {
@@ -127,6 +144,8 @@ public class PageQuery {
 		params.put("startRow", getStartIndex());
 		params.put("pageSize", getPageSize());
 	}
+
+
 
 	public Map<String, Object> getParams() {
 		return params;
@@ -174,12 +193,19 @@ public class PageQuery {
 	@SuppressWarnings("unchecked")
 	public static Map<String, Object> getParameterNameValuesMap(HttpServletRequest request) {
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
+        if(request == null){
+            return paramsMap;
+        }
 		Enumeration<String> names = (Enumeration<String>) request.getParameterNames();
 		StringBuilder pvalues = null;
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
 			String[] values = request.getParameterValues(name);
 			if (values != null) {
+                if(values.length==1){
+                    paramsMap.put(name, values[0]);
+                    continue;
+                }
 				for (String value : values) {
 					pvalues = new StringBuilder();
 					pvalues.append(value);
@@ -214,4 +240,80 @@ public class PageQuery {
 		return map;
 	}
 
+    /**
+     * 创建一个PageQuery对象
+     * @param readRequest 是否自动读取request里的数据
+     * @return
+     */
+    public static PageQuery create(boolean readRequest) {
+        if(readRequest){
+            return new PageQuery();
+        } else{
+            return new PageQuery(20,new HashMap<String, Object>());
+        }
+    }
+
+    public PageQuery put(String key, Object value) {
+        this.addQueryParam(key,value);
+        return this;
+    }
+
+    public PageQuery rows(int size) {
+        this.pageSize = size;
+        return this;
+    }
+
+    /**
+     * 判断入参中bKey如果为boolean类型时，返回是否为false,如果bKey中的值不是boolean类型，始终返回true
+     * @param bKey
+     * @return  返回true表示:bKey中的值是false或者不是boolean类型的值;
+     *          返回false表示：bKey中的值是true;
+     */
+    public boolean isNot(String bKey) {
+        Object obj = this.params.get(bKey);
+        if(obj != null){
+            if(obj instanceof Boolean){
+                return !((Boolean) obj);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断入参中key的值与obj是否相等
+     * @param key
+     * @param obj
+     * @return
+     */
+    public boolean paramEquals(String key, Object obj) {
+        Object val =  params.get(key);
+        if(val != null && obj != null){
+            return val.equals(obj) || val.toString().equals(obj.toString());
+        }
+        return false;
+    }
+
+	public boolean containsParam(String key) {
+		return params==null?false:params.containsKey(key);
+	}
+
+
+	/**
+	 * 获取字符串的参数值
+	 * @param key
+	 * @return
+	 */
+	public String getParamString(String key) {
+		return params==null?null:(String)params.get(key);
+	}
+
+
+	/**
+	 * 获取参数值
+	 * @param key
+	 * @return
+	 */
+	public Object getParamObject(String key) {
+		return params==null?null:params.get(key);
+	}
 }
