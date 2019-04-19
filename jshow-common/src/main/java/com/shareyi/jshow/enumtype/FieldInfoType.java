@@ -8,7 +8,7 @@ package com.shareyi.jshow.enumtype;
 public enum FieldInfoType {
     STRING(1, "String字符"),
     BYTE_ARRAY(2, "byte数组"),
-    OTHER(10,"其他，用JSON方式");
+    OTHER(10, "其他，用JSON方式");
 
     private final int type;
     private final String typeName;

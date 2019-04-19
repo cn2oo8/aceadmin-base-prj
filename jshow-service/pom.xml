@@ -28,14 +28,7 @@
             <groupId>javax.servlet</groupId>  
             <artifactId>servlet-api</artifactId>  
             <scope>provided</scope>  
-        </dependency> 
-       
-       <!-- 由web层决定是否依赖quartz -->
-       <dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			 <scope>provided</scope>  
-		</dependency>
+        </dependency>
 		
 		<!-- 由web层决定是否依赖 spring-context-support -->
        <dependency>

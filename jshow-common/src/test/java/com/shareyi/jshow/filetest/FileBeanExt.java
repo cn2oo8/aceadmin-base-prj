@@ -3,7 +3,8 @@ package com.shareyi.jshow.filetest;
 import com.shareyi.jshow.file.FileField;
 
 /**
- * Created by david on 2015/10/21.
+ * @author david
+ * @date 2015/10/21.
  */
 public class FileBeanExt {
 

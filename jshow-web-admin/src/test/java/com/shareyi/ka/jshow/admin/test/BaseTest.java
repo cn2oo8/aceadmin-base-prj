@@ -9,8 +9,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public abstract class BaseTest {
-    protected Logger log = Logger.getLogger(this.getClass());
     protected static ApplicationContext appContext;
+    protected Logger log = Logger.getLogger(this.getClass());
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -30,17 +30,16 @@ public abstract class BaseTest {
         System.out.println(BaseTest.class.getResource("/"));
     }
 
+    @AfterClass
+    public static void tearDown() throws Exception {
+    }
+
     protected boolean setProtected() {
         return false;
     }
 
-
     @Before
     public void autoSetBean() {
         appContext.getAutowireCapableBeanFactory().autowireBeanProperties(this, DefaultListableBeanFactory.AUTOWIRE_BY_NAME, false);
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
     }
 }
