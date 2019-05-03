@@ -23,15 +23,15 @@ public class KaStringUtils {
      * @param
      * @return
      */
-    public static String joinCollection(Collection collection, String seperator) {
+    public static String joinCollection(Collection collection, String separator) {
         if (CollectionUtils.isEmpty(collection)) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         for (Object object : collection) {
-            sb.append(object).append(seperator);
+            sb.append(object).append(separator);
         }
-        sb.delete(sb.length() - seperator.length(), sb.length());
+        sb.delete(sb.length() - separator.length(), sb.length());
         return sb.toString();
     }
 

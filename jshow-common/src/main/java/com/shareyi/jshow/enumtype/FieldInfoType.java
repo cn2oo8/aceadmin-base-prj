@@ -1,9 +1,10 @@
 package com.shareyi.jshow.enumtype;
 
 /**
- * User:cdtangxi
- * Date:2014/11/20 0020
- * Time:20:54
+ * field类型枚举
+ *
+ * @author david
+ * @Date 2014/11/20
  */
 public enum FieldInfoType {
     STRING(1, "String字符"),

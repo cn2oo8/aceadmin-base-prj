@@ -34,17 +34,6 @@ public class CommonConstant {
 
     /***************************Excel常量定义*******************************/
     /**
-     * 导出商品池列表页商品列表	excel模板名称
-     */
-    public static final String EXPORT_PLIST_SKU = "export_skupool.xls";
-
-    /**
-     * 导出待上传的sku数据
-     */
-    public static final String EXPORT_SKU_UPLOAD = "export_sku_upload.xls";
-
-
-    /**
      * 导出列表最大条数，目前最大2000条
      */
     public static final int EXPORT_LIST_MAX_SIZE = 2000;
