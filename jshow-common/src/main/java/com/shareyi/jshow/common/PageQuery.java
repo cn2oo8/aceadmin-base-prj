@@ -248,23 +248,6 @@ public class PageQuery {
     }
 
     /**
-     * 判断入参中bKey如果为boolean类型时，返回是否为false,如果bKey中的值不是boolean类型，始终返回true
-     *
-     * @param bKey
-     * @return 返回true表示:bKey中的值是false或者不是boolean类型的值;
-     * 返回false表示：bKey中的值是true;
-     */
-    public boolean isNot(String bKey) {
-        Object obj = this.params.get(bKey);
-        if (obj != null) {
-            if (obj instanceof Boolean) {
-                return !((Boolean) obj);
-            }
-        }
-        return true;
-    }
-
-    /**
      * 判断入参中key的值与obj是否相等
      *
      * @param key
