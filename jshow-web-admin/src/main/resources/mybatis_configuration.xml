@@ -4,20 +4,9 @@
    
    	<!-- 别名 -->
 	<typeAliases>
-
-        <typeAlias type="com.shareyi.jshow.domain.app.JshowApp" alias="JshowApp"/>
-        <typeAlias type="com.shareyi.jshow.domain.user.TestUser" alias="TestUser"/>
-
-
     </typeAliases>
 	
      <mappers>
-
-         <mapper resource="sqlmap/app/JshowApp.xml" />
-         <mapper resource="sqlmap/user/TestUser.xml" />
-
-
      </mappers>
-	
 
  </configuration>

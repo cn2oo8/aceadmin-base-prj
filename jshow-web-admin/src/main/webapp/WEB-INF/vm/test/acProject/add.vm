@@ -1,0 +1,179 @@
+#set($layout='/WEB-INF/vm/layout/adminLayout.vm')
+
+
+    
+<div class="modal-body " id="add_acproject">
+	<form class="form-horizontal"  id="form_add_AcProject" role="form">
+	
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="name">名称</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="name" id="name" placeholder="请输入名称" maxlength="50"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="remark">备注</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="remark" id="remark" placeholder="请输入备注" maxlength="500"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="projectKey">项目key</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="projectKey" id="projectKey" placeholder="请输入项目key" maxlength="50"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="type">类型</label>
+			<div class="col-sm-7 controls">
+			
+				
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="ext1">扩展1</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="ext1" id="ext1" placeholder="请输入扩展1" maxlength="50"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="ext2">扩展2</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="ext2" id="ext2" placeholder="请输入扩展2" maxlength="50"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="ext3">扩展3</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="ext3" id="ext3" placeholder="请输入扩展3" maxlength="50"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="creator">创建人</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="creator" id="creator" placeholder="请输入创建人" maxlength="20"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="operator">修改人</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="operator" id="operator" placeholder="请输入修改人" maxlength="20"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="concurrentVersion">并发版本号</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="concurrentVersion" id="concurrentVersion" placeholder="请输入并发版本号" maxlength="19"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="dataVersion">数据版本</label>
+			<div class="col-sm-7 controls">
+			
+				<input type="text"  class="form-control" name="dataVersion" id="dataVersion" placeholder="请输入数据版本" maxlength="19"/>
+								
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="status">状态</label>
+			<div class="col-sm-7 controls">
+			
+				
+			</div>
+		</div>
+		
+		
+
+	</form>
+</div>
+<div class="modal-footer">
+	<a href="javascript:;" class="btn btn-primary" id="btn_add_AcProject">保存</a>
+	<a href="javascript:;" class="btn btn-sm" onclick="backToManage();">返回</a>
+</div>
+
+
+
+
+<script language="javascript">
+
+
+void function(j) {
+	var set = {
+		 		name:  {must: false, maxlength:50, ftip:'名称,最多50个字符'},
+		remark:  {must: false, maxlength:500, ftip:'备注,最多500个字符'},
+		projectKey:  {must: false, maxlength:50, ftip:'项目key,最多50个字符'},
+		type:  {must: false, maxlength:10, ftip:'类型,最多10个字符' ,handler:'int' },
+		ext1:  {must: false, maxlength:50, ftip:'扩展1,最多50个字符'},
+		ext2:  {must: false, maxlength:50, ftip:'扩展2,最多50个字符'},
+		ext3:  {must: false, maxlength:50, ftip:'扩展3,最多50个字符'},
+		creator:  {must: false, maxlength:20, ftip:'创建人,最多20个字符'},
+		operator:  {must: false, maxlength:20, ftip:'修改人,最多20个字符'},
+		concurrentVersion:  {must: false, maxlength:19, ftip:'并发版本号,最多19个字符' ,handler:'int' },
+		dataVersion:  {must: false, maxlength:19, ftip:'数据版本,最多19个字符' ,handler:'int' },
+		status:  {must: false, maxlength:3, ftip:'状态,最多3个字符' ,handler:'int' }
+	};
+	
+
+	j('#btn_add_AcProject').click(function(e) {
+		gUtils.fSubmitForm(
+			j("#form_add_AcProject").serialize(),
+			set, 
+			'/test/acProject/doAdd.action', 
+			function() {
+				gDialog.fClose();
+				backToManage();
+			}
+		);
+	});
+
+
+	//form.friend.init(set);
+}(jQuery);
+
+
+	function backToManage(){
+    		var url='/test/acProject/manage.action';
+    		url=gUtils.fMakeFullLink(url);
+            window.location=url;
+    };
+</script>

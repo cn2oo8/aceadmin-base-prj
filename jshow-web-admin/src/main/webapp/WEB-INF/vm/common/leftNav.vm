@@ -66,19 +66,13 @@
 
             <ul class="submenu">
                 <li>
-                    <a href="/app/jshowApp/manage?from=$!{pageFrom}&menuId=j_nav_1_1"
+                    <a href="/test/acProject/manage?from=$!{pageFrom}&menuId=j_nav_1_1"
                        id="j_nav_1_1" parentid="j_nav_1"  menuname="app管理" class="j_sub_nav">
                         <i class="icon-double-angle-right"></i>
                         app管理
                     </a>
                 </li>
-                <li>
-                    <a href="/user/testUser/manage?from=$!{pageFrom}&menuId=j_nav_1_2"
-                       id="j_nav_1_2" parentid="j_nav_1"  menuname="测试用户管理" class="j_sub_nav">
-                        <i class="icon-double-angle-right"></i>
-                        测试用户管理
-                    </a>
-                </li>
+
                 <li>
                     <a href="error-404.html">
                         <i class="icon-double-angle-right"></i>

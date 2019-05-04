@@ -1,0 +1,172 @@
+#set($layout='/WEB-INF/vm/layout/adminLayout.vm')
+
+        
+	<script type="text/javascript">
+		require(['calendar'],function(calendar){
+			
+				jQuery("#view_acproject").find(".j_datetime_picker").calendar({
+						frondose : true,
+						disabled: false
+					});
+				
+		});
+
+	</script>
+	
+    
+
+
+<div class="modal-body " id="view_acproject">
+	<form class="form-horizontal"  id="form1" role="form">
+	
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="id">id</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="id" id="id" value="$!{acProject.id}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="name">名称</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="name" id="name" value="$!{acProject.name}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="remark">备注</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="remark" id="remark" value="$!{acProject.remark}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="projectKey">项目key</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="projectKey" id="projectKey" value="$!{acProject.projectKey}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="type">类型</label>
+			<div class="col-sm-8 controls">
+			
+
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="ext1">扩展1</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="ext1" id="ext1" value="$!{acProject.ext1}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="ext2">扩展2</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="ext2" id="ext2" value="$!{acProject.ext2}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="ext3">扩展3</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="ext3" id="ext3" value="$!{acProject.ext3}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="creator">创建人</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="creator" id="creator" value="$!{acProject.creator}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="operator">修改人</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="operator" id="operator" value="$!{acProject.operator}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="concurrentVersion">并发版本号</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="concurrentVersion" id="concurrentVersion" value="$!{acProject.concurrentVersion}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="dataVersion">数据版本</label>
+			<div class="col-sm-8 controls">
+			
+							<input type="text" class="form-control" name="dataVersion" id="dataVersion" value="$!{acProject.dataVersion}" readonly/>
+				
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="status">状态</label>
+			<div class="col-sm-8 controls">
+			
+
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="created">创建时间</label>
+			<div class="col-sm-8 controls">
+			
+					<input type="text"  class="form-control" name="created" id="created" value="$!dateFormatUtils.format($!acProject.created)" readonly/>
+						
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label" for="modified">修改时间</label>
+			<div class="col-sm-8 controls">
+			
+					<input type="text"  class="form-control" name="modified" id="modified" value="$!dateFormatUtils.format($!acProject.modified)" readonly/>
+						
+			</div>
+		</div>
+		
+
+	</form>
+</div>
+<div class="modal-footer">
+	<a href="javascript:;" class="btn btn-sm" onclick="backToManage();">返回</a>
+</div>
+
+
+<script language="javascript">
+
+
+function backToManage(){
+	var url='/test/acProject/manage.action';
+	url=gUtils.fMakeFullLink(url);
+    window.location=url;
+}
+
+</script>
