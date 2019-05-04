@@ -5,6 +5,7 @@ package com.shareyi.jshow.constant;
  * 常用常量类定义
  *
  * @author david
+ * @date 2019-01-01
  */
 public class CommonConstant {
 
@@ -46,4 +47,13 @@ public class CommonConstant {
 
 
     public static final String REQUEST_USER_KEY = "user_key";
+
+    /**
+     * 默认分页大小
+     */
+    public static final int DEF_PAGE_SIZE = 10;
+    /**
+     * 最大分页大小
+     */
+    public static final int MAX_PAGE_SIZE = 200;
 }
