@@ -23,7 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.framework.version>4.2.0.RELEASE</spring.framework.version>
         <mybatis.version>3.4.5</mybatis.version>
-        <log4j.version>2.5</log4j.version>
+        <log4j.version>2.17.0</log4j.version>
         <slf4j-api-version>1.7.15</slf4j-api-version>
     </properties>
 
